@@ -1,0 +1,66 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ftgo-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                fallbackUri: forward:/fallback/orders
+
+        - id: kitchen-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/kitchen/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: kitchenCircuitBreaker
+                fallbackUri: forward:/fallback/kitchen
+
+        - id: accounting-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/accounting/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: accountingCircuitBreaker
+                fallbackUri: forward:/fallback/accounting
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+            allowCredentials: true
+
+jwt:
+  secret: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJFdmVyeW9uZSIsIlVzZXJuYW1lIjoiRXZlcmJvZHkifQ
