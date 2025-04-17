@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -54,7 +55,7 @@ public class SecurityConfig {
 
             List<String> authHeaders = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION);
             if (authHeaders.isEmpty() || !authHeaders.get(0).startsWith("Bearer ")) {
-                log.error("auth header is missing");
+                log.error("Auth header is missing");
                 return chain.filter(exchange);
             }
 
@@ -62,21 +63,20 @@ public class SecurityConfig {
             if (jwtUtil.validateToken(token)) {
                 log.info("Token hợp lệ: Qua");
 
-                // Tạo thông tin xác thực
-                String username = jwtUtil.extractUsername(token); // Lấy username từ token
+                String username = jwtUtil.extractUsername(token);
                 List<String> roles = new ArrayList<>();
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(username, null, roles.stream()
                                 .map(SimpleGrantedAuthority::new)
                                 .toList());
 
-                // Gán vào SecurityContext
                 return chain.filter(exchange)
                         .contextWrite(context -> ReactiveSecurityContextHolder.withAuthentication(authentication));
             }
 
             log.error("Token không hợp lệ");
-            return exchange.getResponse().setComplete(); // Từ chối request nếu token không hợp lệ
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         };
     }
 

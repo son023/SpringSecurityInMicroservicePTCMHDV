@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ftgo-monolithic" />
+        <module name="ftgo-api-gateway" />
+        <module name="ftgo-order-service" />
+        <module name="ftgo-kitchen-service" />
+        <module name="ftgo-accounting-service" />
+        <module name="ftgo-auth-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ftgo-accounting-service" options="-parameters" />
+      <module name="ftgo-api-gateway" options="-parameters" />
+      <module name="ftgo-auth-service" options="-parameters" />
+      <module name="ftgo-kitchen-service" options="-parameters" />
+      <module name="ftgo-monolithic" options="-parameters" />
+      <module name="ftgo-order-service" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -15,9 +15,7 @@ import java.util.Map;
 @RequestMapping("/fallback")
 public class FallbackController {
 
-    /**
-     * Fallback cho Auth Service
-     */
+
     @GetMapping("/auth")
     public Mono<ResponseEntity<Map<String, Object>>> authServiceFallback() {
         Map<String, Object> response = new HashMap<>();
@@ -32,9 +30,7 @@ public class FallbackController {
                 .body(response));
     }
 
-    /**
-     * Fallback cho Order Service
-     */
+
     @GetMapping("/orders")
     public Mono<ResponseEntity<Map<String, Object>>> orderServiceFallback() {
         Map<String, Object> response = new HashMap<>();
@@ -49,9 +45,7 @@ public class FallbackController {
                 .body(response));
     }
 
-    /**
-     * Fallback cho Kitchen Service
-     */
+
     @GetMapping("/kitchen")
     public Mono<ResponseEntity<Map<String, Object>>> kitchenServiceFallback() {
         Map<String, Object> response = new HashMap<>();
@@ -66,9 +60,7 @@ public class FallbackController {
                 .body(response));
     }
 
-    /**
-     * Fallback cho Accounting Service
-     */
+
     @GetMapping("/accounting")
     public Mono<ResponseEntity<Map<String, Object>>> accountingServiceFallback() {
         Map<String, Object> response = new HashMap<>();

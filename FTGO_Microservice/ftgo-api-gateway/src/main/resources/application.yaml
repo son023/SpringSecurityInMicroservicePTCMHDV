@@ -11,7 +11,6 @@ spring:
           predicates:
             - Path=/auth/**
           filters:
-            - StripPrefix=1
             - name: CircuitBreaker
               args:
                 name: authCircuitBreaker
@@ -22,7 +21,6 @@ spring:
           predicates:
             - Path=/orders/**
           filters:
-            - StripPrefix=1
             - name: CircuitBreaker
               args:
                 name: orderCircuitBreaker
@@ -33,7 +31,6 @@ spring:
           predicates:
             - Path=/kitchen/**
           filters:
-            - StripPrefix=1
             - name: CircuitBreaker
               args:
                 name: kitchenCircuitBreaker
@@ -44,23 +41,10 @@ spring:
           predicates:
             - Path=/accounting/**
           filters:
-            - StripPrefix=1
             - name: CircuitBreaker
               args:
                 name: accountingCircuitBreaker
                 fallbackUri: forward:/fallback/accounting
-
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:3000"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders: "*"
-            allowCredentials: true
 
 jwt:
   secret: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJFdmVyeW9uZSIsIlVzZXJuYW1lIjoiRXZlcmJvZHkifQ

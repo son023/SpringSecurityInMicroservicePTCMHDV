@@ -17,6 +17,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    //spring security sẽ kiểm tra jsessionId và khôi phục security context trong filter SecurityContextPersistenceFilter
     @GetMapping("/{orderId}")
     public ResponseEntity<?> getOrderDetails(@PathVariable Long orderId) {
         try {
